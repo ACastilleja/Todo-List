@@ -13,11 +13,15 @@ function App() {
 
   const addTodo = (todoTitle)=>{
 
-    const newTodo = {id:Date.now(), title: todoTitle };
+    const newTodo = {id:Date.now(), title: todoTitle, isCompleted: false };
     setTodoList(previous=>[newTodo,...previous])
 
   }
+  function completeTodo () {
 
+
+
+  }
   return (
     <div>
       <h1>My Todos</h1>

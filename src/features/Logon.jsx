@@ -1,6 +1,6 @@
 import { useState} from "react";
 
-function Logon({onSetEmail =()=>{},onSetToken=()=>{}}) {
+function Logon({onSetEmail ,onSetToken}) {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -18,7 +18,7 @@ function Logon({onSetEmail =()=>{},onSetToken=()=>{}}) {
                 headers: {'Content-Type': 'application/json'},
                 credentials: 'include',
                 body: JSON.stringify({email,password})
-            }):
+            });
         const data = await response.json();
 
         if(response.status===200 && data.name&&data.csrfToken){
@@ -50,7 +50,7 @@ function Logon({onSetEmail =()=>{},onSetToken=()=>{}}) {
                 </div>
 
                 <div>
-                    <label htmlFor="password">PassWord:</label>
+                    <label htmlFor="password">Password:</label>
                     <input
                     id="password"
                     type="password"

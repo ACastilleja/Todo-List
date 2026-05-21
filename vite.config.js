@@ -16,8 +16,11 @@ export default ({ mode }) => {
           configure: (proxy) => {
             proxy.on('proxyRes', (proxyRes) => {
               const cookies = proxyRes.headers['set-cookie'];
-              if (cookies) {
-                proxyRes.headers['set-cookie'] = cookies.map((cookie) =>
+              if (!cookies) {
+                  return;
+              }
+              const cookieArray = Array.isArray(cookies) ? cookies : [cookies];
+                proxyRes.headers['set-cookie'] = cookiesArray.map((cookie) =>
                   cookie
                     .replace(/; *Secure/gi, '')
                     .replace(/; *SameSite=None/gi, '')

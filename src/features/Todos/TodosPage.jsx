@@ -112,7 +112,7 @@ function TodosPage({token}) {
                 isCompleted: editedTodo.isCompleted,
             }),
         });
-        if (!response.ok)throw new Error('Could not uupdate todo title.');
+        if (!response.ok)throw new Error('Could not update todo title.');
 } catch (err){
     setError(`Failed to save edit: ${err.message}`);
     setTodoList((previous)=>

@@ -125,7 +125,7 @@ function TodosPage({token}) {
     <div>
     <h1>My Todos</h1>
     {error && (
-        <div classname="error-banner" style={{color:'red', marginBottom: '15px'}}>
+        <div className="error-banner" style={{color:'red', marginBottom: '15px'}}>
             <p>{error}</p>
             <button onClick={()=>setError("")}>Clear Error</button>
         </div>

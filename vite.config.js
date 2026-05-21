@@ -20,13 +20,13 @@ export default ({ mode }) => {
                   return;
               }
               const cookieArray = Array.isArray(cookies) ? cookies : [cookies];
-                proxyRes.headers['set-cookie'] = cookiesArray.map((cookie) =>
+                proxyRes.headers['set-cookie'] = cookieArray.map((cookie) =>
                   cookie
                     .replace(/; *Secure/gi, '')
                     .replace(/; *SameSite=None/gi, '')
                     .replace(/; *Domain=[^;]+/gi, '')
                 );
-              }
+              
             });
           },
         },

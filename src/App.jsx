@@ -6,7 +6,7 @@ import { useState } from 'react';
   
 
 function App() {
-  const [email, setEmail]=useState("");
+  const [_email, setEmail]=useState("");
   const [token, setToken]=useState("");
 
   return(

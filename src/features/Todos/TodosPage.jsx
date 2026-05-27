@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react'
 import TodoList from './TodoList/TodoList';
 import TodoForm from './TodoForm';
+import SortBy from "../../shared/SortBy";
 
 function TodosPage({token}) {
     const [todoList, setTodoList]=useState([]);
     const [error, setError]=useState("");
     const [isTodoListLoading, setIsTodoListLoading]=useState(false);
+    const [sortBy, setSortBy]=useState('creationDate');
+    const [sortDirection, setSortDirection]=useState('desc');
 
     useEffect(()=>{
         if (!token) return;
@@ -15,8 +18,19 @@ function TodosPage({token}) {
                 setIsTodoListLoading(true);
                 setError("");
 
-                const response = await fetch('/api/tasks',{
-                    method: 'Get',
+                const paramsObject={
+                    sortBy,
+                    sortDirection
+                };
+
+                if (debouncedFilterTerm){
+                    paramsObject.find=debouncedFilterTerm;
+                }
+
+                const params = URLSearchParams(paramsObject);
+
+                const response = await fetch(`/api/tasks?${params}`,{
+                    method: 'GET',
                     headers:{'X-CSRF-TOKEN':token,},
                     credentials:'include'
                 });
@@ -30,6 +44,7 @@ function TodosPage({token}) {
 
                 const data = await response.json();
                 setTodoList(data.tasks);
+                setFilterError('');
 
             }catch(err) {
                 setError(err.message);
@@ -38,7 +53,7 @@ function TodosPage({token}) {
             }
         }
         fetchTodos();
-    },[token,setIsTodoListLoading,setTodoList,setError]);
+    },[token,setIsTodoListLoading,setTodoList,setError, sortBy,sortDirection,debouncedFilterTerm]);
 
     const addTodo = async (todoTitle)=>{
     
@@ -131,6 +146,7 @@ function TodosPage({token}) {
         </div>
     )}
     {isTodoListLoading && <p>Loading your todo list...</p>}
+    <SortBy sortBy={sortBy} sortDirection={sortDirection} onSortByChange={setSortBy} onSortDirectionChange={setSortDirection}/>
     <TodoForm onAddTodo={addTodo}/>
     <TodoList todoList={todoList} onCompleteTodo={completeTodo} onUpdateTodo={updateTodo}/>
 

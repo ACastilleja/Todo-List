@@ -178,7 +178,7 @@ function TodosPage({token}) {
                 setFilterTerm('');
                 setSortBy('creationDate');
                 setSortDirection('desc');
-                setFilterError('');
+                setFilterError(null);
             }}>Reset Filters</button>
         </div>
     )}

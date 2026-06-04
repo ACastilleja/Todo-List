@@ -10,6 +10,7 @@ function Header () {
             {isAuthenticated && (
                 <div className="user-profile">
                     <span>Welcome, {email}!</span>
+                    <br></br>
                     <Logoff/>
                 </div>
             )}

@@ -19,7 +19,9 @@ export const TODO_ACTIONS = {
     SET_SORT: 'SET_SORT',
     SET_FILTER: 'SET_FILTER',
     CLEAR_ERROR: 'CLEAR_ERROR',
-    RESET_FILTERS: 'RESET_FILTERS'
+    RESET_FILTERS: 'RESET_FILTERS',
+
+    INCREMENT_VERSION:'INCREMENT_VERSION',
 
 };
 
@@ -54,7 +56,8 @@ export function todoReducer(state,action){
             return{
                 ...state,
                 isTodoListLoading: false,
-                error: action.payload.message,
+                error: action.payload.isFilterError ? '':action.payload.message,
+                filterError: action.payload.isFilterError ? action.payload.message : '',
             };
         case TODO_ACTIONS.ADD_TODO_START:
             return{
@@ -142,7 +145,7 @@ export function todoReducer(state,action){
                 dataVersion:state.dataVersion+1,
 
             };
-        case 'INCREMENT_VERSION':
+        case TODO_ACTIONS.INCREMENT_VERSION:
             return{
                 ...state,
                 dataVersion:state.dataVersion+1

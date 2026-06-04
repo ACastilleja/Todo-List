@@ -7,7 +7,7 @@ const SortBy=({sortBy, sortDirection, onSortByChange, onSortDirectionChange})=>{
             <div>
                 <label htmlFor="sort-by">Sort by</label>
                 <select id="sort-by" value={sortBy} onChange={(e)=>onSortByChange(e.target.value)}>
-                    <option value="creationDate">Creation Date</option>
+                    <option value="createdDate">Creation Date</option>
                     <option value="title">Title</option>
                 </select>
             </div>

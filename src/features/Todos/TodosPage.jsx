@@ -110,7 +110,7 @@ function TodosPage() {
             type: TODO_ACTIONS.ADD_TODO_SUCCESS,
             payload:{tmpId: tempId, confirmedTodo}
         });
-        dispatch({type:'INCREMENT_VERSION'});
+        dispatch({type:TODO_ACTIONS.INCREMENT_VERSION});
         
 
     }catch(err){

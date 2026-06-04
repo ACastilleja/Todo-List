@@ -208,7 +208,7 @@ function TodosPage() {
     {filterError && (
         <div className='filter-error-banner' style={{color:'orange', marginBottom:'15px' }}>
             <p>{filterError}</p>
-            <button onClick={()=>dispatch({type:TODO_ACTIONS.CLEAR_ERROR})}>Clear Filter Error</button>
+            <button onClick={()=>dispatch({type:TODO_ACTIONS.CLEAR_FILTER_ERROR})}>Clear Filter Error</button>
             <button onClick={()=>dispatch({type: TODO_ACTIONS.RESET_FILTERS})}>Reset Filters</button>
         </div>
     )}

@@ -36,7 +36,7 @@ export function AuthProvider({children}){
                 };
             } 
 
-        }catch(error){
+        }catch{
             return{
                 success: false,
                 error: 'Network error during login',
@@ -45,7 +45,43 @@ export function AuthProvider({children}){
 
     };
 
-    const logout = async ()=> {};
+    const logout = async ()=> {
+        if(!token){
+            setEmail('');
+            setToken('');
+            return {success: true};
+        }
+
+        try{
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                    'X-CSRF-Token': token
+                },
+                credentials: 'include',
+            };
+            const res = await fetch('/api/users/logoff',options);
+
+            setEmail('');
+            setToken('');
+            if (res.status ===200){
+                return{success:true};
+            }else{
+                return{
+                    success: false,
+                    error: 'Logout API responded with an error.'
+                };
+            }
+        }catch{
+            setEmail('');
+            setToken('');
+            return{
+                success: false,
+                error: 'Network error during logout',
+            };
+        }
+    };
 
     const value={
         email,

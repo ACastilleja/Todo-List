@@ -9,11 +9,11 @@ export const TODO_ACTIONS = {
     ADD_TODO_ERROR: 'ADD_TODO_ERROR',
 
     COMPLETE_TODO_START: 'COMPLETE_TODO_START',
-    COMPLETE_TODO_SUCCESS: 'COMPLETE_TODO_SUCESS',
+    COMPLETE_TODO_SUCCESS: 'COMPLETE_TODO_SUCCESS',
     COMPLETE_TODO_ERROR: 'COMPLETE_TODO_ERROR',
 
     UPDATE_TODO_START: 'UPDATE_TODO_START',
-    UPDATE_TODO_SUCCESS: 'UPDATE_TODO_SUCESS',
+    UPDATE_TODO_SUCCESS: 'UPDATE_TODO_SUCCESS',
     UPDATE_TODO_ERROR: 'UPDATE_TODO_ERROR',
     
     SET_SORT: 'SET_SORT',
@@ -48,7 +48,7 @@ export function todoReducer(state,action){
             return{
                 ...state,
                 isTodoListLoading: false,
-                todoList: action.payload.todo,
+                todoList: action.payload.todos,
             };
         case TODO_ACTIONS.FETCH_ERROR:
             return{
@@ -78,7 +78,7 @@ export function todoReducer(state,action){
             return{
                 ...state,
                 todoList: state.todoList.map((todo)=>
-                todo.id ===action.payload.id? {...todo,completed: !todo.completed}:todo),
+                todo.id ===action.payload.id? {...todo,isCompleted: !todo.isCompleted}:todo),
                 error:'',
                 filterError: '',
             };
@@ -141,6 +141,11 @@ export function todoReducer(state,action){
                 filterTerm: '',
                 dataVersion:state.dataVersion+1,
 
+            };
+        case 'INCREMENT_VERSION':
+            return{
+                ...state,
+                dataVersion:state.dataVersion+1
             };
 
             default:

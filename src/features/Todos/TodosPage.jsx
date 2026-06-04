@@ -21,10 +21,11 @@ function TodosPage({token}) {
     }=state;
 
     const debouncedFilterTerm = useDebounce(filterTerm, 300);
-    const handleFilterChange = (newTerm)=>{
+    const handleFilterChange = (e)=>{
+        const cleanTerm = e?.target?e.target.value :e;
     dispatch({
         type: TODO_ACTIONS.SET_FILTER,
-        paylaod: {filterTerm: newTerm}
+        paylaod: {filterTerm: cleanTerm}
     });
 };
 

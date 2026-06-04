@@ -125,7 +125,7 @@ export function todoReducer(state,action){
         case TODO_ACTIONS.SET_FILTER:
             return {
                 ...state,
-                filterTerm:action.payload.filterTerm,
+                filterTerm: action.payload.filterTerm,
             };
         case TODO_ACTIONS.CLEAR_ERROR:
             return{

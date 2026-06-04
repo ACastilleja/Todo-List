@@ -21,13 +21,7 @@ function TodosPage({token}) {
     }=state;
 
     const debouncedFilterTerm = useDebounce(filterTerm, 300);
-    const handleFilterChange = (e)=>{
-        const cleanTerm = e?.target?e.target.value :e;
-    dispatch({
-        type: TODO_ACTIONS.SET_FILTER,
-        paylaod: {filterTerm: cleanTerm}
-    });
-};
+
 
     
 
@@ -69,7 +63,7 @@ function TodosPage({token}) {
                 });
 
             }catch(error) {
-                const isFilterErr = debouncedFilterTerm||sortBy !=='creationDate'|| sortDirection !=='desc';
+                const isFilterErr = debouncedFilterTerm||sortBy !=='createdDate'|| sortDirection !=='desc';
                 
                 dispatch({
                     type: TODO_ACTIONS.FETCH_ERROR,
@@ -215,9 +209,9 @@ function TodosPage({token}) {
         </div>
     )}
     {isTodoListLoading && <p>Loading your todo list...</p>}
-    <SortBy sortBy={sortBy} sortDirection={sortDirection} onSortByChange={(newSort)=>dispatch({type: TODO_ACTIONS.SET_SORT, paylaod:{sortBy:newSort,sortDirection}})} 
+    <SortBy sortBy={sortBy} sortDirection={sortDirection} onSortByChange={(newSort)=>dispatch({type: TODO_ACTIONS.SET_SORT, payload:{sortBy:newSort,sortDirection}})} 
     onSortDirectionChange={(newDir)=>dispatch({type: TODO_ACTIONS.SET_SORT,payload:{sortBy,sortDirection:newDir}})}/>
-    <FilterInput filterTerm={filterTerm} onFilterChange={handleFilterChange} />
+    <FilterInput filterTerm={filterTerm} onFilterChange={(text)=>dispatch({type: TODO_ACTIONS.SET_FILTER,payload:{filterTerm:text}})} />
     <TodoForm onAddTodo={addTodo}/>
     <TodoList todoList={todoList} onCompleteTodo={completeTodo} onUpdateTodo={updateTodo} dataVersion={dataVersion} />
 

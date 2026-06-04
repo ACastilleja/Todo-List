@@ -22,3 +22,128 @@ export const TODO_ACTIONS = {
     RESET_FILTERS: 'RESET_FILTERS'
 
 };
+
+export const initialTodoState={
+    todoList: [],
+    error: '',
+    filterError: '',
+    isTodoListLoading: true,
+    sortBy:'createdDate',
+    sortDirection: 'asc',
+    filterTerm: '',
+    dataVersion: 0,
+};
+
+export function todoReducer(state,action){
+    switch(action.type){
+        case TODO_ACTIONS.FETCH_START:
+            return{
+                ...state,
+                isTodoListLoading: true,
+                error: '',
+                filterError: '',
+            };
+
+        case TODO_ACTIONS.FETCH_SUCCESS:
+            return{
+                ...state,
+                isTodoListLoading: false,
+                todoList: action.payload.todo,
+            };
+        case TODO_ACTIONS.FETCH_ERROR:
+            return{
+                ...state,
+                isTodoListLoading: false,
+                error: action.payload.message,
+            };
+        case TODO_ACTIONS.ADD_TODO_START:
+            return{
+                ...state,
+            todoList:[...state.todoList,action.payload.newTodo], 
+            error:'',
+            filterError:'',
+            };
+        case TODO_ACTIONS.ADD_TODO_SUCCESS:
+            return{
+                ...state,
+                todoList:state.todoList.map((todo)=>todo.id === action.payload.tmpId ? action.payload.confirmedTodo : todo),
+            };
+        case TODO_ACTIONS.ADD_TODO_ERROR:
+            return{
+                ...state,
+                todoList: action.payload.rollbackList,
+                error: action.payload.message,
+            };
+        case TODO_ACTIONS.COMPLETE_TODO_START:
+            return{
+                ...state,
+                todoList: state.todoList.map((todo)=>
+                todo.id ===action.payload.id? {...todo,completed: !todo.completed}:todo),
+                error:'',
+                filterError: '',
+            };
+        case TODO_ACTIONS.COMPLETE_TODO_SUCCESS:
+            return{
+                ...state,
+                todoList: state.todoList.map((todo)=>
+                todo.id ===action.payload.confirmedTodo.id ? action.payload.confirmedTodo : todo),
+                
+            };
+        case TODO_ACTIONS.COMPLETE_TODO_ERROR:
+            return{
+                ...state,
+                todoList: action.payload.rollbackList,
+                error: action.payload.message,
+            };
+        case TODO_ACTIONS.UPDATE_TODO_START:
+            return{
+                ...state,
+                todoList:state.todoList.map((todo)=>
+                todo.id === action.payload.id ? {...todo, title: action.payload.title}:todo),
+                error: '',
+                filterError:'',
+            };
+        case TODO_ACTIONS.UPDATE_TODO_SUCCESS:
+            return{
+                ...state,
+                todoList: state.todoList.map((todo)=>todo.id === action.payload.confirmedTodo.id 
+            ? action.payload.confirmedTodo :todo ),
+            };
+        case TODO_ACTIONS.UPDATE_TODO_ERROR:
+            return{
+                ...state,
+                todoList: action.payload.rollbackList,
+                error: action.payload.message,
+            };
+        case TODO_ACTIONS.SET_SORT:
+            return{
+                ...state,
+                sortBy: action.payload.sortBy,
+                sortDirection: action.payload.sortDirection,
+                dataVersion: state.dataVersion +1,
+            };
+        case TODO_ACTIONS.SET_FILTER:
+            return {
+                ...state,
+                filterTerm:action.payload.filterTerm,
+            };
+        case TODO_ACTIONS.CLEAR_ERROR:
+            return{
+                ...state,
+                error:'',
+                filterError:'',
+            };
+        case TODO_ACTIONS.RESET_FILTERS:
+            return{
+                ...state,
+                sortBy:"createdDate",
+                sortDirection: 'asc',
+                filterTerm: '',
+                dataVersion:state.dataVersion+1,
+
+            };
+
+            default:
+                throw new Error(`Unknown action type: ${action.type}`);
+    }
+}

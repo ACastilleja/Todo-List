@@ -20,7 +20,7 @@ function TodoForm({onAddTodo}){
     return(
         <form onSubmit={handleAddTodo}>
             <TextInputWithLabel 
-            ref={inputRef} 
+            innerRef={inputRef} 
             value={workingTodoTitle} 
             onChange={(e)=>setWorkingTodoTitle(e.target.value)}
             elementId={"todoTitle"}

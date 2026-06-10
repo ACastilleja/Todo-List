@@ -4,6 +4,8 @@ import TodosPage from './pages/TodosPage';
 import Logon from './features/Logon';
 import { Routes,Route } from 'react-router';
 import AboutPage from './pages/AboutPage';
+import ProfilePage from './pages/ProfilePage';
+import NotFoundPage from './pages/NotFoundPage';
   
 
 function App() {
@@ -13,6 +15,8 @@ function App() {
       <Header />
       <Routes>
         <Route path='/about' element={<AboutPage/>}/>
+        <Route path='/profile' element={<RequireAuth><ProfilePage/></RequireAuth>}/>
+        <Route path='*' element={<NotFoundPage/>}/>
       </Routes>
       
     </div>

@@ -28,10 +28,12 @@ function ProfilePage(){
                     throw new Error("Failed to fetch todos");
                 }
 
-                const todos = await response.json()
+                const data = await response.json();
 
-                const total = todos.length;
-                const completed =todos.filter((todo)=>todo.isCompleted).length;
+                const tasksArray=Array.isArray(data)?data:(data.tasks||[]);
+
+                const total = tasksArray.length;
+                const completed =tasksArray.filter((todo)=>todo.isCompleted).length;
                 const active = total - completed;
 
                 setTodoStats({total,completed,active});
@@ -81,7 +83,7 @@ function ProfilePage(){
                             height:"100%",
                             borderRadius:"10px",
                             width:`${completionPercentage}%`,
-                            transition:"width 0.5 ease"
+                            transition:"width 0.5s ease"
                         }}/>
                     </div>
                     <p style={{marginTop:"0.5rem"}}>{completionPercentage}% of tasks finished!</p>

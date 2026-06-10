@@ -14,7 +14,7 @@ function StatusFilter(){
     };
     return(
         <div>
-            <label htmlFor="statusFiler">Show:</label>
+            <label htmlFor="statusFilter">Show:</label>
             <select id='statusFilter' value={currentStatus} onChange={(e)=>handleStatusChange(e.target.value)}>
                 <option value='all'>All Todos</option>
                 <option value='active'>Active Todos</option>

@@ -2,7 +2,7 @@ import { useState,useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 
 function ProfilePage(){
-    const {token,user}=useAuth();
+    const {token,email}=useAuth();
     const [todoStats,setTodoStats]=useState({total:0,completed:0,active:0});
     const [loading, setLoading]=useState(true);
     const [error,setError]=useState("");
@@ -55,7 +55,7 @@ function ProfilePage(){
         <div className="profile-container" style={{padding:"2rem", maxWidth:"600px",margin:"0 auto"}}>
             <h1>User Profile</h1>
             <div style={{backgroundColor:"#f9f9f9",padding:"1.5rem",borderRadius:"8px", marginBottom:"2rem"}}>
-                <p><strong>Name:</strong>{user?.name||"Productive Developer"}</p>
+                <p><strong>Name/Email:</strong>{email||"Productive Developer"}</p>
                 <p><strong>Account Status:</strong>Active</p>
             </div>
 

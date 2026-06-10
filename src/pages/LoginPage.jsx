@@ -1,0 +1,71 @@
+import {useState, useEffect} from 'react';
+import { useNavigate, useLocation } from 'react-router';
+import { useAuth } from '../contexts/AuthContext';
+
+function LoginPage(){
+    const {login, isAuthenticated} = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [authError, setAuthError] = useState("");
+    const [isLoggingOn, setIsLoggingOn] = useState(false);
+
+    const from = location.sate?.from?.pathname || '/todos';
+
+    useEffect(()=>{
+        if(isAuthenticated){
+            navigate(from, {replace:true});
+        }
+    },[isAuthenticated,navigate,from]);
+
+
+
+    const handleSubmit = async (e)=>{
+        e.preventDefault();
+        setIsLoggingOn(true);
+        setAuthError("");
+
+
+        const result = await login(email,password);
+
+        if (!result.success){
+            setAuthError(result.error);
+            setIsLoggingOn(false);
+        }
+    };
+    return(
+        <div className="logon-container">
+            {authError&&<p className="error-message" style={{color:'red'}}>{authError}</p>}
+
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="email">Email Address:</label>
+                    <input
+                    id="email"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e)=>setEmail(e.target.value)}/>
+                </div>
+
+                <div>
+                    <label htmlFor="password">Password:</label>
+                    <input
+                    id="password"
+                    type="password"
+                    required
+                    value={password}
+                    onChange={(e)=>setPassword(e.target.value)}/>
+                </div>
+
+                <button type="submit" disabled={isLoggingOn}>
+                    {isLoggingOn?"Logging in...":"Log On"}
+                </button>
+            </form>
+        </div>
+    );
+
+}
+export default LoginPage;

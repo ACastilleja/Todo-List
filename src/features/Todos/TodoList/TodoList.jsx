@@ -36,7 +36,7 @@ function TodoList({todoList, onCompleteTodo,onUpdateTodo,dataVersion,statusFilte
                 return 'No active todos. Add a todo above to get started.';
             case 'all':
                 default:
-                return 'Add todo above to get started';
+                return 'Add todo above to get started.';
         }
     };
 

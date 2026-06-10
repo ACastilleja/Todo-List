@@ -38,7 +38,7 @@ function ProfilePage(){
 
                 setTodoStats({total,completed,active});
             }catch (err){
-                setError(`Error loading statistics:${err.message}`);
+                setError(`Error loading statistics: ${err.message}`);
             }finally{
                 setLoading(false);
             }
@@ -48,7 +48,7 @@ function ProfilePage(){
 
     const completionPercentage = todoStats.total>0 ? Math.round((todoStats.completed/todoStats.total)*100):0;
 
-    if(loading) return <div style={{padding:"2rem",textAlign:"center"}}>Laoding your stats...</div>;
+    if(loading) return <div style={{padding:"2rem",textAlign:"center"}}>Loading your stats...</div>;
     if(error) return <div style={{padding:"2rem", color:"red"}}>{error}</div>;
 
     return (

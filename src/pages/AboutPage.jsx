@@ -14,6 +14,7 @@ return (
         <ul style={{lineHeight:"1.8", paddingLeft:"1.5rem"}}>
             <li><strong>Secure Authentication</strong>Protected route to your personal Todo List.</li>
             <li><strong>Dynamic Filtering</strong>Sort and filter task by <em>All</em>,<em>Active</em>, or <em>Completed</em>statuses.</li>
+            <li><strong>Profile Analytics</strong>Real-time statistics track your completion percentage and active task counts on a dedicated profile dashboad.</li>
             <li><strong>Fluid Navigation</strong>Seamless and fast single-page application navigation.</li>
         </ul>
     <hr style={{margin:"2em 0",borderColor:"#ececec"}}/>
@@ -32,7 +33,7 @@ return (
         </div>
         <div style={techCardStyle}>
             <h3>Vite</h3>
-            <p>Provides and ultra-fast local developemtn server and optimized production build environment.</p>
+            <p>Provides and ultra-fast local development server and optimized production build environment.</p>
 
         </div>
     </div>

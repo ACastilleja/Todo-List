@@ -1,17 +1,19 @@
+import { useSearchParams } from 'react-router';
+import StatusFilter from '../shared/StatusFilter';
 import { useEffect, useReducer } from 'react'
-import TodoList from './TodoList/TodoList';
-import TodoForm from './TodoForm';
-import SortBy from "../../shared/SortBy";
-import useDebounce from '../../utils/useDebounce';
-import FilterInput from '../../shared/FilterInput';
-import { todoReducer,initialTodoState,TODO_ACTIONS } from '../../reducers/todoReducer';
-import { useAuth } from '../../contexts/AuthContext';
+import TodoList from '../features/Todos/TodoList/TodoList';
+import TodoForm from '../features/Todos/TodoForm';
+import SortBy from "../shared/SortBy";
+import useDebounce from '../utils/useDebounce';
+import FilterInput from '../shared/FilterInput';
+import { todoReducer,initialTodoState,TODO_ACTIONS } from '../reducers/todoReducer';
+import { useAuth } from '../contexts/AuthContext';
 
 
 function TodosPage() {
 
     const {token}=useAuth();
-    
+    const[searchParams]=useSearchParams();
     const [state, dispatch]=useReducer(todoReducer, initialTodoState);
     const{
         todoList,
@@ -25,7 +27,7 @@ function TodosPage() {
     }=state;
 
     const debouncedFilterTerm = useDebounce(filterTerm, 300);
-
+    const statusFilter=searchParams.get('status')||'all';
 
     
 
@@ -215,9 +217,10 @@ function TodosPage() {
     {isTodoListLoading && <p>Loading your todo list...</p>}
     <SortBy sortBy={sortBy} sortDirection={sortDirection} onSortByChange={(newSort)=>dispatch({type: TODO_ACTIONS.SET_SORT, payload:{sortBy:newSort,sortDirection}})} 
     onSortDirectionChange={(newDir)=>dispatch({type: TODO_ACTIONS.SET_SORT,payload:{sortBy,sortDirection:newDir}})}/>
+    <StatusFilter/>
     <FilterInput filterTerm={filterTerm} onFilterChange={(text)=>dispatch({type: TODO_ACTIONS.SET_FILTER,payload:{filterTerm:text}})} />
     <TodoForm onAddTodo={addTodo}/>
-    <TodoList todoList={todoList} onCompleteTodo={completeTodo} onUpdateTodo={updateTodo} dataVersion={dataVersion} />
+    <TodoList todoList={todoList} onCompleteTodo={completeTodo} onUpdateTodo={updateTodo} dataVersion={dataVersion} statusFilter={statusFilter}/>
 
     </div>
 );

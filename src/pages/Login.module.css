@@ -67,3 +67,32 @@
     background-color: #a0aec0;
     cursor: not-allowed;
 }
+
+/* Password toggle css */
+
+.passwordWrapper{
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.passwordWrapper input{
+    padding-right:2.5rem;
+}
+.eyeButton{
+    position: absolute;
+    right: 10px;
+    background: none !important;
+    border: none !important;
+    color: #718096 !important;
+    cursor: pointer;
+    padding: 0 !important;
+    width: auto !important;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s ease;
+}
+.eyeButton:hover{
+    transform: scale(1.1);
+}

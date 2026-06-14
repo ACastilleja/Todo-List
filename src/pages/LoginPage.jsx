@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react';
 import { useNavigate, useLocation } from 'react-router';
 import { useAuth } from '../contexts/AuthContext';
+import styles from './Login.module.css';
 
 function LoginPage(){
     const {login, isAuthenticated} = useAuth();
@@ -36,7 +37,7 @@ function LoginPage(){
         }
     };
     return(
-        <div className="logon-container">
+        <div className={styles.loginContainer}>
             {authError&&<p className="error-message" style={{color:'red'}}>{authError}</p>}
 
             <form onSubmit={handleSubmit}>

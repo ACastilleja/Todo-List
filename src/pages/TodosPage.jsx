@@ -8,7 +8,7 @@ import useDebounce from '../utils/useDebounce';
 import FilterInput from '../shared/FilterInput';
 import { todoReducer,initialTodoState,TODO_ACTIONS } from '../reducers/todoReducer';
 import { useAuth } from '../contexts/AuthContext';
-
+import styles from './TodoDashboard.module.css';
 
 function TodosPage() {
 
@@ -199,29 +199,51 @@ function TodosPage() {
 
 
     return (
-    <div>
-    <h1>My Todos</h1>
+    <div className={styles.dashboardContainer}>
+    <div className={styles.contentCard}>
+    <h1 className={styles.sectionTitle}>My Todos Dashboard</h1>
+    {/* Error Banners */}
     {error && (
-        <div className="error-banner" style={{color:'red', marginBottom: '15px'}}>
+        <div className={styles.errorBanner}>
             <p>{error}</p>
             <button onClick={()=>dispatch({type: TODO_ACTIONS.CLEAR_ERROR})}>Clear Error</button>
         </div>
     )}
     {filterError && (
-        <div className='filter-error-banner' style={{color:'orange', marginBottom:'15px' }}>
+        <div className={styles.fiterErrorBanner}>
             <p>{filterError}</p>
+            <div className={styles.bannerButtons}>
             <button onClick={()=>dispatch({type:TODO_ACTIONS.CLEAR_FILTER_ERROR})}>Clear Filter Error</button>
             <button onClick={()=>dispatch({type: TODO_ACTIONS.RESET_FILTERS})}>Reset Filters</button>
+            </div>
         </div>
     )}
-    {isTodoListLoading && <p>Loading your todo list...</p>}
+    {/* Form */}
+    <div className={styles.formSection}>
+        <TodoForm onAddTodo={addTodo}/>
+    </div>
+
+    {/* Filter */}
+    <div className={styles.filterSection}>
+    <FilterInput filterTerm={filterTerm} onFilterChange={(text)=>dispatch({type: TODO_ACTIONS.SET_FILTER,payload:{filterTerm:text}})} /> 
+    <StatusFilter/>
     <SortBy sortBy={sortBy} sortDirection={sortDirection} onSortByChange={(newSort)=>dispatch({type: TODO_ACTIONS.SET_SORT, payload:{sortBy:newSort,sortDirection}})} 
     onSortDirectionChange={(newDir)=>dispatch({type: TODO_ACTIONS.SET_SORT,payload:{sortBy,sortDirection:newDir}})}/>
-    <StatusFilter/>
-    <FilterInput filterTerm={filterTerm} onFilterChange={(text)=>dispatch({type: TODO_ACTIONS.SET_FILTER,payload:{filterTerm:text}})} />
-    <TodoForm onAddTodo={addTodo}/>
-    <TodoList todoList={todoList} onCompleteTodo={completeTodo} onUpdateTodo={updateTodo} dataVersion={dataVersion} statusFilter={statusFilter}/>
+    </div>
 
+    {/* List */}
+
+    {isTodoListLoading ? (
+        <p className={styles.loadingText}>🔄Loading your todo list...</p>
+    ) : todoList.length === 0 ? (
+        <div className={styles.emptyState}>
+            <span className={styles.emptyIcon}>🎯</span>
+            <p>All caught up! Add a task above to start your day.</p>
+        </div>
+    ):(
+        <TodoList todoList={todoList} onCompleteTodo={completeTodo} onUpdateTodo={updateTodo} dataVersion={dataVersion} statusFilter={statusFilter}/>
+    )}
+    </div>
     </div>
 );
 };

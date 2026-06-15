@@ -40,7 +40,7 @@
     border-radius: 6px;
     font-size: 1rem;
     box-sizing: border-box;
-    transition: border-color 0.2 ease, box-shadow 0.2 ease;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .loginContainer input:focus{
     outline: none;

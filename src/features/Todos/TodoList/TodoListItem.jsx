@@ -1,6 +1,7 @@
 import TextInputWithLabel from "../../../shared/TextInputWithLabel";
 import { useState } from "react";
 import { isValidTodoTitle } from "../../../utils/todoValidation";
+import styles from "./TodoListItem.module.css";
 
 function TodoListItem({todo, onCompleteTodo,onUpdateTodo}){
     const [isEditing, setIsEditing] = useState(false);
@@ -24,26 +25,31 @@ function TodoListItem({todo, onCompleteTodo,onUpdateTodo}){
 
 
         return(
-    <li>
-        <form onSubmit={handleUpdate}>
+    <li className={styles.itemCard}>
+        <form onSubmit={handleUpdate} className={styles.itemForm}>
             {isEditing ?(
-                <>
+                <div className={styles.editContainer}>
+                <div className={styles.editInputWrapper}>
                 <TextInputWithLabel value={workingTitle} onChange={handleEdit}/>
+                </div>
                 <button type="button" onClick={handleCancel}>Cancel</button> 
                 <button type="button" onClick={handleUpdate} disabled={!isValidTodoTitle(workingTitle)}>Update</button> 
-        
-                </>
+                
+                </div>
                 ):(
-                <>
-                <label>
+                <div className={styles.viewContainer}>
+                
                 <input
                     type="checkbox"
+                    className={styles.checkboxInput}
                     checked={todo.isCompleted}
                     onChange={()=>onCompleteTodo(todo.id)}
                 />
-                </label>
-                <span onClick = {()=>setIsEditing(true)}>{todo.title}</span>
-                </>
+                
+                <span className={`${styles.todoText} ${todo.isCompleted ? styles.completedText : ""}`}
+                onClick = {()=>setIsEditing(true)}>{todo.title}
+                </span>
+                </div>
             )}
             
         </form>

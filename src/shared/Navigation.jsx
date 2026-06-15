@@ -1,42 +1,31 @@
 import { NavLink } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
+import styles from "./Header.module.css";
 
 function Navigation (){
     const {isAuthenticated}=useAuth();
 
-    const navLinkStyle=({isActive})=>{
-        return{
-            fontWeight: isActive ? "bold":"normal",
-            textDecoration: isActive?"underline":"none",
-            color: isActive ? "#3498db": "#333",
-        };
-    };
-
-    const listStyle ={
-        listStyle:'none',
-        display:'flex',
-        gap:'1rem',
-        padding:0,
-        margin:0
-    };
+    const getLinkClass=({isActive})=>
+        isActive ? `${styles.navLink} ${styles.activeNavLink}`:styles.navLink;
+    
 
     return(
         <nav>
-            <ul style={listStyle}>
+            <ul className={styles.navList}>
                 <li>
-                    <NavLink to="/about" style={navLinkStyle}>
+                    <NavLink to="/about" className={getLinkClass}>
                     About
                     </NavLink>
                 </li>
                 {isAuthenticated && (
                     <>
                         <li>
-                            <NavLink to="/todos" style={navLinkStyle}>
+                            <NavLink to="/todos" className={getLinkClass}>
                             Todos
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/profile" style={navLinkStyle}>
+                            <NavLink to="/profile" className={getLinkClass}>
                             Profile
                             </NavLink>
                         </li>
@@ -44,7 +33,7 @@ function Navigation (){
                 )}
                 {!isAuthenticated && (
                     <li>
-                        <NavLink to="/login" style={navLinkStyle}>
+                        <NavLink to="/login" className={getLinkClass}>
                         Login
                         </NavLink>
                     </li>

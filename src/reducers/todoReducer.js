@@ -24,6 +24,10 @@ export const TODO_ACTIONS = {
     INCREMENT_VERSION:'INCREMENT_VERSION',
     CLEAR_FILTER_ERROR: 'CLEAR_FILTER_ERROR',
 
+    DELETE_TODO_START:'DELETE_TODO_START',
+    DELETE_TODO_ERROR:'DELETE_TODO_ERROR',
+    DELETE_TODO_SUCCESS:'DELETE_TODO_SUCCESS',
+
 };
 
 export const initialTodoState={
@@ -63,7 +67,7 @@ export function todoReducer(state,action){
         case TODO_ACTIONS.ADD_TODO_START:
             return{
                 ...state,
-            todoList:[...state.todoList,action.payload.newTodo], 
+            todoList:[action.payload.newTodo,...state.todoList], 
             error:'',
             filterError:'',
             };
@@ -154,6 +158,20 @@ export function todoReducer(state,action){
             return{
                 ...state,
                 dataVersion:state.dataVersion+1
+            };
+
+        case TODO_ACTIONS.DELETE_TODO_START:
+            return{
+                ...state,
+                todoList: state.todoList.filter(todo=>todo.id !== action.payload.id)
+            };
+        case TODO_ACTIONS.DELETE_TODO_SUCCESS:
+            return state;
+        case TODO_ACTIONS.DELETE_TODO_ERROR:
+            return{
+                ...state,
+                todoList:action.payload.rollbackList,
+                error:action.payload.message
             };
 
             default:

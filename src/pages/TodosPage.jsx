@@ -8,7 +8,9 @@ import useDebounce from '../utils/useDebounce';
 import FilterInput from '../shared/FilterInput';
 import { todoReducer,initialTodoState,TODO_ACTIONS } from '../reducers/todoReducer';
 import { useAuth } from '../contexts/AuthContext';
-
+import styles from './TodoDashboard.module.css';
+import DOMPurify from 'dompurify';
+import { isValidTodoTitle } from '../utils/todoValidation';
 
 function TodosPage() {
 
@@ -87,10 +89,22 @@ function TodosPage() {
     },[token,sortBy,sortDirection,debouncedFilterTerm]);
 
     const addTodo = async (todoTitle)=>{
-    
+// verifying length before DOMPurify
+    const rawTitle=todoTitle ? todoTitle.trim():'';
+    if(!isValidTodoTitle(rawTitle)||rawTitle.length>100){
+        dispatch({
+            type:TODO_ACTIONS.ADD_TODO_ERROR,
+            payload:{message:"Invalid task title. Title must be between 1 and 100 characters.",rollbackList:todoList}
+        });
+        return;
+    }
+// DOMPurify    
+    const sanitizedTitle = DOMPurify.sanitize(rawTitle);
+    if(!sanitizedTitle)return;
+
     const rollbackList = todoList;    
     const tempId = Date.now().toString();
-    const newTodo = {id:tempId, title: todoTitle, isCompleted: false };
+    const newTodo = {id:tempId, title: sanitizedTitle, isCompleted: false };
     dispatch({
         type: TODO_ACTIONS.ADD_TODO_START,
         payload:{newTodo}
@@ -104,7 +118,7 @@ function TodosPage() {
                 'X-CSRF-TOKEN':token
             },
             credentials:'include',
-            body: JSON.stringify({title: todoTitle, isCompleted: false})
+            body: JSON.stringify({title: sanitizedTitle, isCompleted: false})
         });
         if(!response.ok) throw new Error('Could not save your todo.');
         const confirmedTodo = await response.json();
@@ -160,18 +174,33 @@ function TodosPage() {
     }
 };
     const updateTodo = async (editedTodo)=>{
+  // Validate length
+    const rawTitle=editedTodo.title?editedTodo.title.trim():'';
+    if (!isValidTodoTitle(rawTitle)||rawTitle.length>100){
+        dispatch({
+            type: TODO_ACTIONS.UPDATE_TODO_ERROR,
+            payload:{message:"Invalid task title. Title must be between 1 and 100 characters.",rollbackList: todoList}
+        });
+        return;
+    }
+    // DOMPurify
+    const sanitizedTitle=DOMPurify.sanitize(rawTitle);
+    if(!sanitizedTitle)return;
+
     const rollbackList=todoList;
     const originalTodo = todoList.find((todo)=>todo.id === editedTodo.id);
     if(!originalTodo)return;
 
+    const secureTodo={...editedTodo, title:sanitizedTitle};
+
 
     dispatch({
         type: TODO_ACTIONS.UPDATE_TODO_START,
-        payload:{id:editedTodo.id, title: editedTodo.title}
+        payload:{id:secureTodo.id, title: secureTodo.title}
     });
 
     try{
-        const response = await fetch(`/api/tasks/${editedTodo.id}`,{
+        const response = await fetch(`/api/tasks/${secureTodo.id}`,{
             method: 'PATCH',
             headers: {
                 'Content-Type':'application/json',
@@ -179,14 +208,14 @@ function TodosPage() {
             },
             credentials:'include',
             body: JSON.stringify({
-                title: editedTodo.title,
-                isCompleted: editedTodo.isCompleted,
+                title: secureTodo.title,
+                isCompleted: secureTodo.isCompleted,
             }),
         });
         if (!response.ok)throw new Error('Could not update todo title.');
         dispatch({
             type: TODO_ACTIONS.UPDATE_TODO_SUCCESS,
-            payload:{confirmedTodo:editedTodo}
+            payload:{confirmedTodo:secureTodo}
         });
 
 } catch (err){
@@ -196,32 +225,81 @@ function TodosPage() {
     });
 }
 };
+    const deleteTodo = async(id)=>{
+        const rollbackList=todoList;
+
+        dispatch({
+            type: TODO_ACTIONS.DELETE_TODO_START,
+            payload:{id}
+        });
+        try {
+            const response = await fetch(`/api/tasks/${id}`,{
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN':token
+                },
+                credentials:'include'
+            });
+            if(!response.ok) throw new Error('Could not delete task from server.');
+
+            dispatch({type: TODO_ACTIONS.DELETE_TODO_SUCCESS, payload:{id}});
+            dispatch({type: TODO_ACTIONS.INCREMENT_VERSION});
+        }catch(err){
+            dispatch({
+                type: TODO_ACTIONS.DELETE_TODO_ERROR,
+                payload:{message:`Failed to delete todo: ${err.message}`,rollbackList},
+                
+            });
+        }
+    };
 
 
     return (
-    <div>
-    <h1>My Todos</h1>
+    <div className={styles.dashboardContainer}>
+    <div className={styles.contentCard}>
+    <h1 className={styles.sectionTitle}>My Todos Dashboard</h1>
+    {/* Error Banners */}
     {error && (
-        <div className="error-banner" style={{color:'red', marginBottom: '15px'}}>
+        <div className={styles.errorBanner}>
             <p>{error}</p>
             <button onClick={()=>dispatch({type: TODO_ACTIONS.CLEAR_ERROR})}>Clear Error</button>
         </div>
     )}
     {filterError && (
-        <div className='filter-error-banner' style={{color:'orange', marginBottom:'15px' }}>
+        <div className={styles.fiterErrorBanner}>
             <p>{filterError}</p>
+            <div className={styles.bannerButtons}>
             <button onClick={()=>dispatch({type:TODO_ACTIONS.CLEAR_FILTER_ERROR})}>Clear Filter Error</button>
             <button onClick={()=>dispatch({type: TODO_ACTIONS.RESET_FILTERS})}>Reset Filters</button>
+            </div>
         </div>
     )}
-    {isTodoListLoading && <p>Loading your todo list...</p>}
+    {/* Form */}
+    <div className={styles.formSection}>
+        <TodoForm onAddTodo={addTodo}/>
+    </div>
+
+    {/* Filter */}
+    <div className={styles.filterSection}>
+    <FilterInput filterTerm={filterTerm} onFilterChange={(text)=>dispatch({type: TODO_ACTIONS.SET_FILTER,payload:{filterTerm:text}})} /> 
+    <StatusFilter/>
     <SortBy sortBy={sortBy} sortDirection={sortDirection} onSortByChange={(newSort)=>dispatch({type: TODO_ACTIONS.SET_SORT, payload:{sortBy:newSort,sortDirection}})} 
     onSortDirectionChange={(newDir)=>dispatch({type: TODO_ACTIONS.SET_SORT,payload:{sortBy,sortDirection:newDir}})}/>
-    <StatusFilter/>
-    <FilterInput filterTerm={filterTerm} onFilterChange={(text)=>dispatch({type: TODO_ACTIONS.SET_FILTER,payload:{filterTerm:text}})} />
-    <TodoForm onAddTodo={addTodo}/>
-    <TodoList todoList={todoList} onCompleteTodo={completeTodo} onUpdateTodo={updateTodo} dataVersion={dataVersion} statusFilter={statusFilter}/>
+    </div>
 
+    {/* List */}
+
+    {isTodoListLoading ? (
+        <p className={styles.loadingText}>🔄Loading your todo list...</p>
+    ) : todoList.length === 0 ? (
+        <div className={styles.emptyState}>
+            <span className={styles.emptyIcon}>🎯</span>
+            <p>All caught up! Add a task above to start your day.</p>
+        </div>
+    ):(
+        <TodoList todoList={todoList} onCompleteTodo={completeTodo} onUpdateTodo={updateTodo} onDeleteTodo={deleteTodo} dataVersion={dataVersion} statusFilter={statusFilter}/>
+    )}
+    </div>
     </div>
 );
 };

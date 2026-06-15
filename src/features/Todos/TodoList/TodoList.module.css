@@ -1,0 +1,18 @@
+.listContainer {
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.emptyMessageText {
+    text-align: center;
+    padding: 2rem 1rem;
+    font-family: sans-serif;
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}

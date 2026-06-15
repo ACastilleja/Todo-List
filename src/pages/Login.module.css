@@ -1,0 +1,98 @@
+.loginContainer{
+    min-height: 100vh;
+    width: 100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe3 100%);
+}
+
+.loginContainer form{
+    background-color: white;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+.loginContainer h2{
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #333333;
+    text-align: center;
+    font-family: sans-serif;
+}
+.loginContainer form>div{
+    margin-bottom:1.25rem;
+}
+.loginContainer label{
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color:#4a5568;
+    font-size: 0.9rem;
+    font-family: sans-serif;
+}
+.loginContainer input{
+    width: 100%;
+    padding:0.75rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.2 ease, box-shadow 0.2 ease;
+}
+.loginContainer input:focus{
+    outline: none;
+    border-color: #3182ce;
+    box-shadow: 000 3px rgba(49,130,206,0.2);
+}
+.loginContainer button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 0.5rem;
+}
+.loginContainer button:hover:not(:disabled){
+    background-color: #2b6cb0;
+}
+.loginContainer button:disabled{
+    background-color: #a0aec0;
+    cursor: not-allowed;
+}
+
+/* Password toggle css */
+
+.passwordWrapper{
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.passwordWrapper input{
+    padding-right:2.5rem;
+}
+.eyeButton{
+    position: absolute;
+    right: 10px;
+    background: none !important;
+    border: none !important;
+    color: #718096 !important;
+    cursor: pointer;
+    padding: 0 !important;
+    width: auto !important;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.1s ease;
+}
+.eyeButton:hover{
+    transform: scale(1.1);
+}

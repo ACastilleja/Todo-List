@@ -19,8 +19,8 @@ export function AuthProvider({children}){
             const res = await fetch('/api/users/logon',options);
             const data = await res.json();
 
-            if (res.status === 200 && data.name && data.csrfToken){
-                setEmail(data.name);
+            if (res.status === 200 && userEmail && data.csrfToken){
+                setEmail(userEmail);
                 setToken(data.csrfToken);
                 return{success:true};
             }else{

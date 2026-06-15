@@ -1,8 +1,9 @@
 import TextInputWithLabel from "../../../shared/TextInputWithLabel";
 import { useState } from "react";
 import { isValidTodoTitle } from "../../../utils/todoValidation";
+import styles from "./TodoListItem.module.css";
 
-function TodoListItem({todo, onCompleteTodo,onUpdateTodo}){
+function TodoListItem({todo, onCompleteTodo,onUpdateTodo,onDeleteTodo}){
     const [isEditing, setIsEditing] = useState(false);
     const [workingTitle, setWorkingTitle] = useState(todo.title);
     
@@ -24,26 +25,32 @@ function TodoListItem({todo, onCompleteTodo,onUpdateTodo}){
 
 
         return(
-    <li>
-        <form onSubmit={handleUpdate}>
+    <li className={styles.itemCard}>
+        <form onSubmit={handleUpdate} className={styles.itemForm}>
             {isEditing ?(
-                <>
-                <TextInputWithLabel value={workingTitle} onChange={handleEdit}/>
-                <button type="button" onClick={handleCancel}>Cancel</button> 
-                <button type="button" onClick={handleUpdate} disabled={!isValidTodoTitle(workingTitle)}>Update</button> 
-        
-                </>
+                <div className={styles.editContainer}>
+                <div className={styles.editInputWrapper}>
+                <TextInputWithLabel value={workingTitle} onChange={handleEdit} maxLength="100"/>
+                </div>
+                <button type="button" className={`${styles.btn} ${styles.cancelBtn}`}onClick={handleCancel}>Cancel</button> 
+                <button type="button" className={`${styles.btn} ${styles.updateBtn}`}onClick={handleUpdate} disabled={!isValidTodoTitle(workingTitle)}>Update</button> 
+                
+                </div>
                 ):(
-                <>
-                <label>
+                <div className={styles.viewContainer}>
+                
                 <input
                     type="checkbox"
+                    className={styles.checkboxInput}
                     checked={todo.isCompleted}
                     onChange={()=>onCompleteTodo(todo.id)}
                 />
-                </label>
-                <span onClick = {()=>setIsEditing(true)}>{todo.title}</span>
-                </>
+                
+                <span className={`${styles.todoText} ${todo.isCompleted ? styles.completedText : ""}`}
+                onClick = {()=>setIsEditing(true)}>{todo.title}
+                </span>
+                <button type="button" className={styles.deleteBtn} onClick={()=>onDeleteTodo(todo.id)} title="Delete Task">🗑️</button>
+                </div>
             )}
             
         </form>

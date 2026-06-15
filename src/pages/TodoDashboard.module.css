@@ -1,5 +1,5 @@
 .dashboardContainer{
-    min-height: calc(100vh-75px);
+    min-height: calc(100vh - 75px);
     background: linear-gradient(135deg, #f5f7fa 0%,#c3cfe2 100%);
     padding: 2.5rem 1rem;
     display: flex;

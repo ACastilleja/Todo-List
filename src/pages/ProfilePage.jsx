@@ -54,7 +54,7 @@ function ProfilePage(){
         <p className={styles.loadingText}>🔄Loading your stats...</p>
     </div>);
     if(error) return (<div className={styles.dashboardContainer}>
-        <div className={styles.errorBanner} styles={{maxWidth:"600px",width:"100%"}}>
+        <div className={styles.errorBanner} style={{maxWidth:"600px",width:"100%"}}>
             <p>{error}</p>
         </div>
     </div>);

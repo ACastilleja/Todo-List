@@ -21,7 +21,7 @@ return (
         </ul>
     <hr style={{margin:"2em 0",borderColor:"#e2e8f0"}}/>
 
-    <h2 style={{fontFamily:"sans-serif",color:"1e293b",marginBottom:"1rem" }}>Technologies Used</h2>
+    <h2 style={{fontFamily:"sans-serif",color:"#1e293b",marginBottom:"1rem" }}>Technologies Used</h2>
     <div style={{display:"flex",gap:"1.5rem",flexWrap:"wrap", marginTop:"1rem"}}>
         <div style={techCardStyle}>
             <h3 style={{margin:"0 0 0.5rem 0",color:"#2d3748"}}>React</h3>

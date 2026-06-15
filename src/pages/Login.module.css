@@ -45,7 +45,7 @@
 .loginContainer input:focus{
     outline: none;
     border-color: #3182ce;
-    box-shadow: 000 3px rgba(49,130,206,0.2);
+    box-shadow: 0 0 0 3px rgba(49,130,206,0.2);
 }
 .loginContainer button {
     width: 100%;

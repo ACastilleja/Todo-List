@@ -10,6 +10,7 @@ import { todoReducer,initialTodoState,TODO_ACTIONS } from '../reducers/todoReduc
 import { useAuth } from '../contexts/AuthContext';
 import styles from './TodoDashboard.module.css';
 import DOMPurify from 'dompurify';
+import { isValidTodoTitle } from '../utils/todoValidation';
 
 function TodosPage() {
 
@@ -88,8 +89,17 @@ function TodosPage() {
     },[token,sortBy,sortDirection,debouncedFilterTerm]);
 
     const addTodo = async (todoTitle)=>{
-    
-    const sanitizedTitle = DOMPurify.sanitize(todoTitle).trim();
+// verifying length before DOMPurify
+    const rawTitle=todoTitle ? todoTitle.trim():'';
+    if(!isValidTodoTitle(rawTitle)||rawTitle.length>100){
+        dispatch({
+            type:TODO_ACTIONS.ADD_TODO_ERROR,
+            payload:{message:"Invalid task title. Title must be between 1 and 100 characters.",rollbackList:todoList}
+        });
+        return;
+    }
+// DOMPurify    
+    const sanitizedTitle = DOMPurify.sanitize(rawTitle);
     if(!sanitizedTitle)return;
 
     const rollbackList = todoList;    
@@ -164,8 +174,17 @@ function TodosPage() {
     }
 };
     const updateTodo = async (editedTodo)=>{
-    
-    const sanitizedTitle=DOMPurify.sanitize(editedTodo.title).trim();
+  // Validate length
+    const rawTitle=editedTodo.title?editedTodo.title.trim():'';
+    if (!isValidTodoTitle(rawTitle)||rawTitle.length>100){
+        dispatch({
+            type: TODO_ACTIONS.UPDATE_TODO_ERROR,
+            payload:{message:"Invalid task title. Title must be between 1 and 100 characters.",rollbackList: todoList}
+        });
+        return;
+    }
+    // DOMPurify
+    const sanitizedTitle=DOMPurify.sanitize(rawTitle);
     if(!sanitizedTitle)return;
 
     const rollbackList=todoList;

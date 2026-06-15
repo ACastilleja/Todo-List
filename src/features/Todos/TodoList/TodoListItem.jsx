@@ -30,7 +30,7 @@ function TodoListItem({todo, onCompleteTodo,onUpdateTodo,onDeleteTodo}){
             {isEditing ?(
                 <div className={styles.editContainer}>
                 <div className={styles.editInputWrapper}>
-                <TextInputWithLabel value={workingTitle} onChange={handleEdit}/>
+                <TextInputWithLabel value={workingTitle} onChange={handleEdit} maxLength="100"/>
                 </div>
                 <button type="button" className={`${styles.btn} ${styles.cancelBtn}`}onClick={handleCancel}>Cancel</button> 
                 <button type="button" className={`${styles.btn} ${styles.updateBtn}`}onClick={handleUpdate} disabled={!isValidTodoTitle(workingTitle)}>Update</button> 

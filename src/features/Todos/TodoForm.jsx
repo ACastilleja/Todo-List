@@ -10,6 +10,9 @@ function TodoForm({onAddTodo}){
     const handleAddTodo = (event)=>{
         event.preventDefault();
 
+        if(!isValidTodoTitle(workingTodoTitle)||workingTodoTitle.trim().length>100){
+            return;
+        }
         
         if(workingTodoTitle.trim() !==""){
             onAddTodo(workingTodoTitle);
@@ -27,9 +30,10 @@ function TodoForm({onAddTodo}){
             onChange={(e)=>setWorkingTodoTitle(e.target.value)}
             elementId={"todoTitle"}
             labelText={"Todo "}
+            maxLength="100"
             />
             </div>
-            <button type="submit" className={styles.submitButton} disabled={!isValidTodoTitle(workingTodoTitle)}>Add Todo</button>
+            <button type="submit" className={styles.submitButton} disabled={!isValidTodoTitle(workingTodoTitle)||workingTodoTitle.trim().length>100}>Add Todo</button>
 
             </div>           
             

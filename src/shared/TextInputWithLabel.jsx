@@ -1,6 +1,6 @@
 
 
-function TextInputWithLabel({elementId,labelText,onChange,innerRef,value,}){
+function TextInputWithLabel({elementId,labelText,onChange,innerRef,value,maxLength}){
 
 return(
     <>
@@ -11,6 +11,7 @@ return(
     ref={innerRef}
     value={value}
     onChange={onChange}
+    maxLength={maxLength}
     />
     </>
 );

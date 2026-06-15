@@ -1,4 +1,4 @@
-import './App.css'
+
 import Header from './shared/Header';
 import TodosPage from './pages/TodosPage';
 import { Routes,Route } from 'react-router';

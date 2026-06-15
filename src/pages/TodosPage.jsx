@@ -99,7 +99,10 @@ function TodosPage() {
         return;
     }
 // DOMPurify    
-    const sanitizedTitle = DOMPurify.sanitize(rawTitle);
+    const sanitizedTitle = DOMPurify.sanitize(rawTitle,{
+        ALLOWED_TAGS:[],
+        ALLOWED_ATTR: []
+    });
     if(!sanitizedTitle)return;
 
     const rollbackList = todoList;    
@@ -184,7 +187,10 @@ function TodosPage() {
         return;
     }
     // DOMPurify
-    const sanitizedTitle=DOMPurify.sanitize(rawTitle);
+    const sanitizedTitle=DOMPurify.sanitize(rawTitle,{
+        ALLOWED_TAGS: [],
+        ALLOWED_ATTR: []
+    });
     if(!sanitizedTitle)return;
 
     const rollbackList=todoList;

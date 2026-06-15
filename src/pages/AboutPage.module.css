@@ -1,0 +1,72 @@
+.aboutContainer{
+    min-height: calc(100vh - 75px);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 2.5rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+.aboutCard{
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 800px;
+}
+.aboutTitle{
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-family: sans-serif;
+    color: #1e293b;
+    font-size: 1.6rem;
+    font-weight: 700;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.75rem;
+}
+.subTitle{
+    font-family: sans-serif;
+    color: #1e293b;
+    margin-bottom: 1rem;
+
+}
+.aboutText{
+    font-family: sans-serif;
+    color: #4a5568;
+    line-height: 1.6;
+}
+.featureList{
+    font-family: sans-serif;
+    color: #4a5568;
+    line-height: 1.8;
+    padding-left: 1.5rem;
+    margin-bottom: 2rem;
+}
+.divider {
+    margin: 2rem 0;
+    border: 0;
+    border-top: 1px solid #e2e8f0;
+}
+.techGrid{
+    display:flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+.techCard{
+    flex: 1 1 200px;
+    padding: 1.25rem;
+    border: 1px solid #adb2b9;
+    border-radius: 8px;
+    background-color: #f8fafc;
+    font-family: sans-serif;
+}
+.techCardTitle{
+    margin: 0 0 0.5rem 0;
+    color: #2d3748;
+}
+.techCardText{
+    margin: 0;
+    font-size: 0.9rem;
+    color: #4a5568;
+}

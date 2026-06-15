@@ -196,6 +196,33 @@ function TodosPage() {
     });
 }
 };
+    const deleteTodo = async(id)=>{
+        const rollbackList=todoList;
+
+        dispatch({
+            type: TODO_ACTIONS.DELETE_TODO_START,
+            payload:{id}
+        });
+        try {
+            const response = await fetch(`/api/tasks/${id}`,{
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN':token
+                },
+                credentials:'include'
+            });
+            if(!response.ok) throw new Error('Could not delete task from server.');
+
+            dispatch({type: TODO_ACTIONS.DELETE_TODO_SUCCESS, payload:{id}});
+            dispatch({type: TODO_ACTIONS.INCREMENT_VERSION});
+        }catch(err){
+            dispatch({
+                type: TODO_ACTIONS.DELETE_TODO_ERROR,
+                payload:{message:`Failed to delete todo: ${err.message}`,rollbackList},
+                
+            });
+        }
+    };
 
 
     return (
@@ -241,7 +268,7 @@ function TodosPage() {
             <p>All caught up! Add a task above to start your day.</p>
         </div>
     ):(
-        <TodoList todoList={todoList} onCompleteTodo={completeTodo} onUpdateTodo={updateTodo} dataVersion={dataVersion} statusFilter={statusFilter}/>
+        <TodoList todoList={todoList} onCompleteTodo={completeTodo} onUpdateTodo={updateTodo} onDeleteTodo={deleteTodo} dataVersion={dataVersion} statusFilter={statusFilter}/>
     )}
     </div>
     </div>

@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import styles from "./TodoList.module.css";
 
 
-function TodoList({todoList, onCompleteTodo,onUpdateTodo,dataVersion,statusFilter='all'}){
+function TodoList({todoList, onCompleteTodo,onUpdateTodo,onDeleteTodo,dataVersion,statusFilter='all'}){
     
     const filteredTodoList = useMemo(()=>{
         
@@ -48,7 +48,7 @@ function TodoList({todoList, onCompleteTodo,onUpdateTodo,dataVersion,statusFilte
     
     ):(
     <ul className={styles.listContainer}>
-        {filteredTodoList.todos.map((todo)=>(<TodoListItem key={todo.id} todo={todo} onCompleteTodo={onCompleteTodo} onUpdateTodo={onUpdateTodo}/>))}
+        {filteredTodoList.todos.map((todo)=>(<TodoListItem key={todo.id} todo={todo} onCompleteTodo={onCompleteTodo} onUpdateTodo={onUpdateTodo} onDeleteTodo={onDeleteTodo}/>))}
     </ul> 
     );
         

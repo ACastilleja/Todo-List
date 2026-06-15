@@ -3,7 +3,7 @@ import { useState } from "react";
 import { isValidTodoTitle } from "../../../utils/todoValidation";
 import styles from "./TodoListItem.module.css";
 
-function TodoListItem({todo, onCompleteTodo,onUpdateTodo}){
+function TodoListItem({todo, onCompleteTodo,onUpdateTodo,onDeleteTodo}){
     const [isEditing, setIsEditing] = useState(false);
     const [workingTitle, setWorkingTitle] = useState(todo.title);
     
@@ -32,8 +32,8 @@ function TodoListItem({todo, onCompleteTodo,onUpdateTodo}){
                 <div className={styles.editInputWrapper}>
                 <TextInputWithLabel value={workingTitle} onChange={handleEdit}/>
                 </div>
-                <button type="button" onClick={handleCancel}>Cancel</button> 
-                <button type="button" onClick={handleUpdate} disabled={!isValidTodoTitle(workingTitle)}>Update</button> 
+                <button type="button" className={`${styles.btn} ${styles.cancelBtn}`}onClick={handleCancel}>Cancel</button> 
+                <button type="button" className={`${styles.btn} ${styles.updateBtn}`}onClick={handleUpdate} disabled={!isValidTodoTitle(workingTitle)}>Update</button> 
                 
                 </div>
                 ):(
@@ -49,6 +49,7 @@ function TodoListItem({todo, onCompleteTodo,onUpdateTodo}){
                 <span className={`${styles.todoText} ${todo.isCompleted ? styles.completedText : ""}`}
                 onClick = {()=>setIsEditing(true)}>{todo.title}
                 </span>
+                <button type="button" className={styles.deleteBtn} onClick={()=>onDeleteTodo(todo.id)} title="Delete Task">🗑️</button>
                 </div>
             )}
             

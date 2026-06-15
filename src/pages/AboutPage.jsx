@@ -5,8 +5,8 @@ function AboutPage(){
 return (
     <div className={styles.dashboardContainer}>
     <div className={styles.contentCard} style={{ maxWidth:"800px"}}>
-        <h1 classsName={styles.sectionTitle}>About My Todo Application</h1>
-        <p styles={{fontFamily:"sans-serif",color:"#4a5568", lineHeight:"1.6"}}>
+        <h1 className={styles.sectionTitle}>About My Todo Application</h1>
+        <p style={{fontFamily:"sans-serif",color:"#4a5568", lineHeight:"1.6"}}>
             Welcome to my Todo App. This app was created to help you keep track of your daily Todo chores. 
         </p>
         <hr style={{margin:"2rem 0", borderColor:"#e2e8f0"}}/>

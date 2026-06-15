@@ -2,7 +2,7 @@
 A professional, React CRUD application built as part of the 2026 Code the Dream React Course curriculum.
 
 ## Live Demo
-**Deployed Application:** [View Live Demo]() **Note:** I will not deploy at this moment. 
+**Deployed Application:** [No deployment]() **Note:** No deployment focus on styling only.  
 
 ## Description
 This application features user authentication, real-time analytics, and client-side security mitigation.

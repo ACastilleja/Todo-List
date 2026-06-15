@@ -266,7 +266,7 @@ function TodosPage() {
         </div>
     )}
     {filterError && (
-        <div className={styles.fiterErrorBanner}>
+        <div className={styles.filterErrorBanner}>
             <p>{filterError}</p>
             <div className={styles.bannerButtons}>
             <button onClick={()=>dispatch({type:TODO_ACTIONS.CLEAR_FILTER_ERROR})}>Clear Filter Error</button>

@@ -49,7 +49,7 @@ function TodoListItem({todo, onCompleteTodo,onUpdateTodo,onDeleteTodo}){
                 <span className={`${styles.todoText} ${todo.isCompleted ? styles.completedText : ""}`}
                 onClick = {()=>setIsEditing(true)}>{todo.title}
                 </span>
-                <button type="button" className={styles.deleteBtn} onClick={()=>onDeleteTodo(todo.id)} title="Delete Task">🗑️</button>
+                <button type="button" className={styles.deleteBtn} onClick={()=>onDeleteTodo(todo.id)} title="Delete Task" aria-label={`Delete task: ${todo.title}`}>🗑️</button>
                 </div>
             )}
             

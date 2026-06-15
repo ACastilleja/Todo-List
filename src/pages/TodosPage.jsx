@@ -9,6 +9,7 @@ import FilterInput from '../shared/FilterInput';
 import { todoReducer,initialTodoState,TODO_ACTIONS } from '../reducers/todoReducer';
 import { useAuth } from '../contexts/AuthContext';
 import styles from './TodoDashboard.module.css';
+import DOMPurify from 'dompurify';
 
 function TodosPage() {
 
@@ -88,9 +89,12 @@ function TodosPage() {
 
     const addTodo = async (todoTitle)=>{
     
+    const sanitizedTitle = DOMPurify.sanitize(todoTitle).trim();
+    if(!sanitizedTitle)return;
+
     const rollbackList = todoList;    
     const tempId = Date.now().toString();
-    const newTodo = {id:tempId, title: todoTitle, isCompleted: false };
+    const newTodo = {id:tempId, title: sanitizedTitle, isCompleted: false };
     dispatch({
         type: TODO_ACTIONS.ADD_TODO_START,
         payload:{newTodo}
@@ -104,7 +108,7 @@ function TodosPage() {
                 'X-CSRF-TOKEN':token
             },
             credentials:'include',
-            body: JSON.stringify({title: todoTitle, isCompleted: false})
+            body: JSON.stringify({title: sanitizedTitle, isCompleted: false})
         });
         if(!response.ok) throw new Error('Could not save your todo.');
         const confirmedTodo = await response.json();
@@ -160,18 +164,24 @@ function TodosPage() {
     }
 };
     const updateTodo = async (editedTodo)=>{
+    
+    const sanitizedTitle=DOMPurify.sanitize(editedTodo.title).trim();
+    if(!sanitizedTitle)return;
+
     const rollbackList=todoList;
     const originalTodo = todoList.find((todo)=>todo.id === editedTodo.id);
     if(!originalTodo)return;
 
+    const secureTodo={...editedTodo, title:sanitizedTitle};
+
 
     dispatch({
         type: TODO_ACTIONS.UPDATE_TODO_START,
-        payload:{id:editedTodo.id, title: editedTodo.title}
+        payload:{id:secureTodo.id, title: secureTodo.title}
     });
 
     try{
-        const response = await fetch(`/api/tasks/${editedTodo.id}`,{
+        const response = await fetch(`/api/tasks/${secureTodo.id}`,{
             method: 'PATCH',
             headers: {
                 'Content-Type':'application/json',
@@ -179,14 +189,14 @@ function TodosPage() {
             },
             credentials:'include',
             body: JSON.stringify({
-                title: editedTodo.title,
-                isCompleted: editedTodo.isCompleted,
+                title: secureTodo.title,
+                isCompleted: secureTodo.isCompleted,
             }),
         });
         if (!response.ok)throw new Error('Could not update todo title.');
         dispatch({
             type: TODO_ACTIONS.UPDATE_TODO_SUCCESS,
-            payload:{confirmedTodo:editedTodo}
+            payload:{confirmedTodo:secureTodo}
         });
 
 } catch (err){
